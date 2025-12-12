@@ -36,23 +36,12 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/).
 
 ## Installation
 
-### Option 1: Install as Plugin (Recommended)
-
 ```bash
 # In Claude Code, add the marketplace
-/plugin marketplace add quesma/quesma-claude-skills
+/plugin marketplace add QuesmaOrg/quesma-claude-skills
 
 # Install the plugin
 /plugin install gemini-skills@quesma-claude-skills
-```
-
-### Option 2: Clone to Project
-
-Clone this repository into your project's `.claude/skills/` directory:
-
-```bash
-mkdir -p .claude/skills
-git clone https://github.com/quesma/quesma-claude-skills.git .claude/skills/gemini
 ```
 
 ## Usage Examples
