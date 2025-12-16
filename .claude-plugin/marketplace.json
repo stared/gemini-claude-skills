@@ -1,7 +1,7 @@
 {
-  "name": "quesma-claude-skills",
+  "name": "gemini-claude-skills",
   "owner": {
-    "name": "Quesma"
+    "name": "Piotr Migdał"
   },
   "plugins": [
     {

@@ -1,4 +1,4 @@
-# Quesma Claude Skills - Gemini Integration
+# Gemini Claude Skills
 
 Claude Code skills for integrating Google's Gemini 3 Pro models into your workflow.
 
@@ -38,10 +38,10 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/).
 
 ```bash
 # In Claude Code, add the marketplace
-/plugin marketplace add QuesmaOrg/quesma-claude-skills
+/plugin marketplace add stared/gemini-claude-skills
 
 # Install the plugin
-/plugin install gemini-skills@quesma-claude-skills
+/plugin install gemini-skills@gemini-claude-skills
 ```
 
 ## Usage Examples
@@ -70,12 +70,16 @@ The scripts use [uv](https://docs.astral.sh/uv/) with inline script dependencies
 # ///
 ```
 
+## Author
+
+Piotr Migdał ([@pmigdal](https://github.com/stared))
+
 ## License
 
-Apache 2.0
+MIT
 
 ## Links
 
-- [Nano Banana Pro Blog Post](https://quesma.com/blog/nano-banana-pro-intelligence-with-tools/)
+- [Nano Banana Pro Blog Post](https://p.migdal.pl/blog/nano-banana-pro/)
 - [Google AI Gemini Documentation](https://ai.google.dev/gemini-api/docs)
 - [Claude Code Skills Documentation](https://code.claude.com/docs/en/skills)
