@@ -1,13 +1,15 @@
 # Gemini Claude Skills
 
-Claude Code skills for integrating Google's Gemini 3 Pro models into your workflow.
+Claude Code skills for integrating Google's Gemini 3 Pro models into your workflow. For more context, see [this blog post](https://quesma.com/blog/claude-skills-not-antigravity/).
 
 ## Skills Included
 
 ### 1. Nano Banana Pro (`nano-banana-pro`)
+
 Generate images using Google's advanced Nano Banana Pro model (`gemini-3-pro-image-preview`).
 
 **Capabilities:**
+
 - Accurate infographics with real data (uses Google Search grounding)
 - Text rendering in images
 - Cartographic visualizations and maps
@@ -16,9 +18,11 @@ Generate images using Google's advanced Nano Banana Pro model (`gemini-3-pro-ima
 - Resolutions: `1K`, `2K`, `4K`
 
 ### 2. Gemini Consultant (`gemini-consultant`)
+
 Get a second opinion from Gemini 3 Pro (`gemini-3-pro-preview`) with Google Search grounding and vision.
 
 **Capabilities:**
+
 - Real-time web information via Google Search grounding
 - Image analysis (single or multiple images)
 - Configurable thinking depth (`low` for speed, `high` for complex reasoning)
@@ -49,11 +53,13 @@ Get your API key from [Google AI Studio](https://aistudio.google.com/).
 Once installed, Claude will automatically use these skills when appropriate. You can also explicitly request them:
 
 ### Image Generation
+
 > "Generate an infographic showing the water cycle"
 
 > "Create a 16:9 landscape image of a futuristic city at 4K resolution"
 
 ### AI Consultation
+
 > "Ask Gemini what the latest React 19 features are"
 
 > "Get a second opinion on this code architecture from Gemini"
