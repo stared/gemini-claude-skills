@@ -1,86 +1,95 @@
 ---
 name: gemini-consultant
-description: Get a second opinion from Gemini 3 Pro with Google Search grounding and vision. Use when you need real-time web information, want to verify facts, need a different perspective on a technical question, want to consult another AI model, or need to analyze images.
+description: Get a second opinion from Gemini 3 Pro. CRITICAL: Success depends on providing EXTREME amounts of context (hundreds of lines of code, logs, and history).
 allowed-tools: Bash, Read
 ---
 
 # Gemini Consultant
 
-Get a second opinion from Google's Gemini 3 Pro (`gemini-3-pro-preview`) with real-time Google Search grounding and vision capabilities.
+Get a second opinion from Google's Gemini 3 Pro (`gemini-3-pro-preview`) with real-time Google Search grounding.
+
+**CRITICAL: GEMINI IS BLIND.** It knows nothing about your current session, file system, conversation history, or previous errors unless you explicitly force-feed it that data.
+
+## The "Dump Everything" Rule
+
+The `-c/--context` argument is effectively unlimited. To get a useful answer, you must dump **EVERYTHING** relevant into the context.
+
+* **Quantity:** We are talking about **10, 100, or 500+ lines** of context.
+* **Scope:** Include the file in question, *all* related files (imports, types, configs), the *full* error traceback, your current hypothesis, and a summary of what you have already tried.
+* **History:** If you are deep in a debugging session, dump the relevant parts of the conversation history into the context.
+
+**If you think a file is even tangentially related, INCLUDE IT.**
 
 ## Prerequisites
 
-The user must have `GEMINI_API_KEY` environment variable set with a valid Google AI API key.
+`GEMINI_API_KEY` environment variable must be set.
 
 ## Usage
 
-The script is located in the same directory as this SKILL.md file. Run it with `uv run`:
-
 ```bash
-uv run /path/to/skills/gemini-consultant/consult.py "your question here"
+uv run /path/to/skills/gemini-consultant/consult.py "Detailed Question" -c "MASSIVE CONTEXT STRING"
 ```
-
-When this skill is invoked, locate `consult.py` in the skill directory and run it.
 
 ### Parameters
 
-| Parameter | Required | Description |
-|-----------|----------|-------------|
-| `question` | Yes | The question to ask Gemini |
-| `-c`, `--context` | No | Additional context to include (code snippets, background info) |
-| `-i`, `--image` | No | Image file(s) to analyze (can be used multiple times) |
-| `--media-resolution` | No | Image resolution: `low` (280 tokens), `medium` (560, default), `high` (1120), `ultra_high` |
-| `--no-search` | No | Disable Google Search grounding (use pure model knowledge) |
-| `--thinking` | No | Reasoning depth: `low` (faster) or `high` (deeper, default) |
+| Parameter | Description |
+|-----------|-------------|
+| `question` | The prompt. Be specific. "Given error X and code Y (in context), why is logic Z failing?" |
+| `-c`, `--context` | **THE DATA DUMP.** Concatenate everything here. Code, logs, history, configs. Can be used multiple times. |
+| `-i`, `--image` | Image file paths (screenshots, diagrams). |
+| `--media-resolution` | `low`, `medium` (default), `high`, `ultra_high`. |
+| `--no-search` | Disable web search (pure code logic). |
+| `--thinking` | `low` or `high` (default). Use `high` for code. |
 
-### Examples
+## Examples
 
-Simple question with web search:
+### BAD (Lazy = Failure)
+
 ```bash
-uv run consult.py "What is the latest version of Python and its new features?"
+# WRONG: Context is missing.
+uv run consult.py "Why is this crashing?" -c "Error: 500 Internal Server Error"
 ```
 
-Question with context:
 ```bash
-uv run consult.py "What could cause this error?" -c "TypeError: Cannot read property 'map' of undefined"
+# WRONG: Single file provided, ignoring dependencies.
+uv run consult.py "Fix this function." -c "$(cat src/broken_file.py)"
 ```
 
-Fast response without deep reasoning:
+### GOOD (Exhaustive = Success)
+
+*NOTE: Real-world usages are usually 10-100x longer than the snippets below.*
+
 ```bash
-uv run consult.py "Quick summary of REST vs GraphQL" --thinking low
+# CORRECT: Providing File, Imports, Types, and Errors
+uv run consult.py "I am getting a RecursionError in the serialization logic. Analyze the relationship between the Model and the Schema." \
+  -c "FILE: src/models.py
+$(cat src/models.py)
+
+FILE: src/schemas.py
+$(cat src/schemas.py)
+
+FILE: src/config/db_settings.py
+$(cat src/config/db_settings.py)
+
+ERROR LOG:
+$(cat logs/error_dump.txt)
+
+PREVIOUS ATTEMPTS:
+I tried removing the circular reference in schema.py line 40 but it broke the API validation."
 ```
 
-Without web search (pure model knowledge):
 ```bash
-uv run consult.py "Explain the CAP theorem" --no-search
+# CORRECT: Architecture review with full project scope
+uv run consult.py "Review this authentication flow for security flaws." \
+  -c "MIDDLEWARE: $(cat src/middleware/auth.ts)
+MODELS: $(cat src/models/user.ts)
+ROUTES: $(cat src/routes/auth.ts)
+CONFIG: $(cat src/config/security.ts)
+TYPES: $(cat src/types/express.d.ts)"
 ```
 
-Analyze an image:
+### Web Search (No Code Context Needed)
+
 ```bash
-uv run consult.py "What's in this image?" -i screenshot.png
+uv run consult.py "What is the latest version of Next.js and what are its new features?"
 ```
-
-Analyze multiple images:
-```bash
-uv run consult.py "Compare these two diagrams" -i diagram1.png -i diagram2.png
-```
-
-High-resolution image analysis (for fine text or small details):
-```bash
-uv run consult.py "Read the text in this image" -i document.png --media-resolution high
-```
-
-## When to Use
-
-- **Real-time information**: Current events, latest releases, recent updates
-- **Fact verification**: Double-check information with web sources
-- **Second opinion**: Get an alternative perspective on technical decisions
-- **Web research**: Find current documentation, tutorials, or solutions
-- **Image analysis**: Analyze screenshots, diagrams, photos, or any visual content
-- **Compare images**: Analyze multiple images together
-
-## Output
-
-The script prints:
-- The model's response
-- Sources/citations from Google Search (when grounding is enabled)
