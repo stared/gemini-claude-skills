@@ -1,6 +1,6 @@
 ---
 name: gemini-consultant
-description: Get a second opinion from Gemini 3 Pro. CRITICAL: Success depends on providing EXTREME amounts of context (hundreds of lines of code, logs, and history).
+description: Get a second opinion from Gemini 3 Pro (gemini-3-pro-preview). Accepts text, code, and images as INPUT. Returns TEXT analysis, advice, and feedback. Use for code review, analyzing screenshots, UX feedback, debugging, architecture review, or web search.
 allowed-tools: Bash(uv:*), Read
 ---
 

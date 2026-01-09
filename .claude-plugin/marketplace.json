@@ -8,7 +8,7 @@
       "name": "gemini-skills",
       "source": "./",
       "description": "Google Gemini 3 Pro skills for image generation (Nano Banana Pro) and AI consultation with web search and vision",
-      "version": "1.0.2"
+      "version": "1.0.3"
     }
   ]
 }
