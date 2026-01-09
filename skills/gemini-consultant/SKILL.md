@@ -1,7 +1,7 @@
 ---
 name: gemini-consultant
 description: Get a second opinion from Gemini 3 Pro. CRITICAL: Success depends on providing EXTREME amounts of context (hundreds of lines of code, logs, and history).
-allowed-tools: Bash, Read
+allowed-tools: Bash(uv:*), Read
 ---
 
 # Gemini Consultant

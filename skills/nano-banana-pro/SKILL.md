@@ -1,7 +1,7 @@
 ---
 name: nano-banana-pro
 description: Generate images using Google's Nano Banana Pro (gemini-3-pro-image-preview). Use when user asks to create, generate, or draw images, infographics, visualizations, diagrams, charts, illustrations, or any visual content. Excellent for data-accurate infographics and text rendering.
-allowed-tools: Bash, Write, Read
+allowed-tools: Bash(uv:*), Write, Read
 ---
 
 # Nano Banana Pro Image Generator
